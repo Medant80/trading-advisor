@@ -9,7 +9,7 @@ source.include_patterns = assets/*,images/*
 
 version = 0.1
 
-requirements = python3,kivy,requests,urllib3,certifi,chardet,idna
+requirements = python3,kivy,requests
 
 orientation = portrait
 fullscreen = 0
