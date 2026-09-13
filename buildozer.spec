@@ -9,7 +9,7 @@ source.include_patterns = assets/*,images/*
 
 version = 0.1
 
-requirements = python3,kivy,requests,charset-normalizer==2.1.1
+requirements = python3,kivy
 
 orientation = portrait
 fullscreen = 0
