@@ -21,6 +21,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+
     - name: Install Buildozer and Cython
       run: |
         pip install buildozer
@@ -28,14 +29,16 @@ jobs:
 
     - name: Accept Android SDK licenses
       run: |
-        yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses || true
-        yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" "platforms;android-34" || true
+        mkdir -p ~/.android
+        echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > ~/.android/repositories.cfg
 
     - name: Build APK
       run: |
         buildozer -v android debug
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: trading-advisor-apk
         path: bin/*.apk
