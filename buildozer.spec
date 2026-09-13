@@ -29,4 +29,4 @@ log_level = 1
 warn_on_root = 1
 
 [p4a]
-branch = develop
+branch = master
