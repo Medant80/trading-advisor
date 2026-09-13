@@ -8,10 +8,12 @@ import time
 import threading
 from datetime import datetime, timedelta, timezone
 
-import requests
+import urllib.request
+import urllib.parse
+import json
 
 from kivy.app import App
-from kivy.clock import Clock
+from kivy.clock import Clock, mainthread
 from kivy.utils import platform
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -75,13 +77,16 @@ def fetch_candles_for_symbol(symbol, interval_code, limit=100):
     range_map = {"1d": "6mo", "1h": "3mo"}
     yahoo_range = range_map[yahoo_interval]
 
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
-    params = {"interval": yahoo_interval, "range": yahoo_range}
-    headers = {"User-Agent": "Mozilla/5.0 (Android) TradingAdvisor/1.0"}
+    base_url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+    params = urllib.parse.urlencode({"interval": yahoo_interval, "range": yahoo_range})
+    url = f"{base_url}?{params}"
 
-    r = requests.get(url, params=params, headers=headers, timeout=20)
-    r.raise_for_status()
-    data = r.json()
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0 (Android) TradingAdvisor/1.0"}
+    )
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
 
     result = data["chart"]["result"][0]
     timestamps = result["timestamp"]
@@ -398,6 +403,7 @@ class MainLayout(BoxLayout):
         grid = build_4h_grid(start)
         return f"UTC{offset:+d}  |  старт: {start:02d}:00  |  4H: {grid}"
 
+    @mainthread
     def log(self, message):
         ts = datetime.now().strftime("%H:%M:%S")
         lbl = Label(
