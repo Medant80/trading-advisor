@@ -16,11 +16,11 @@ fullscreen = 0
 
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE,FOREGROUND_SERVICE,FOREGROUND_SERVICE_DATA_SYNC,POST_NOTIFICATIONS,WAKE_LOCK
 
-android.api = 33
+android.api = 34
 android.minapi = 24
 android.ndk = 25b
-android.archs = arm64-v8a, armeabi-v7a
-android.allow_backup = True
+android.archs = arm64-v8a
+android.accept_sdk_license = True
 
 android.wakelock = True
 android.presplash_color = #000000
