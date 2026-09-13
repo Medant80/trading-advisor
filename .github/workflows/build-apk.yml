@@ -37,6 +37,13 @@ jobs:
         mkdir -p ~/.android
         echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > ~/.android/repositories.cfg
 
+    - name: Clean Buildozer cache
+      run: |
+        rm -rf .buildozer/android/platform/build-arm64-v8a/build/python-installs
+        rm -rf .buildozer/android/platform/build-arm64-v8a/build/venv
+        rm -rf .buildozer/android/platform/build-arm64-v8a/dists
+        echo "Cache cleaned"
+
     - name: Build APK
       run: |
         buildozer -v android debug
